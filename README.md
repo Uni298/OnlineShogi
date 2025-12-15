@@ -111,3 +111,5 @@ MIT License
 ---
 
 楽しい対局を！ Enjoy your game!
+
+by Claude Sonnet 4.5
