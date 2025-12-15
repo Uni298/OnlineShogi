@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>オンライン将棋 - Online Shogi</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🎌 オンライン将棋</h1>
+        <p class="subtitle">Online Multiplayer Shogi</p>
+      </header>
+
+      <!-- Room Selection Screen -->
+      <div id="roomScreen" class="screen active">
+        <div class="card">
+          <h2>ゲームを始める</h2>
+          <div class="button-group">
+            <button id="createRoomBtn" class="btn btn-primary">
+              <span>新しいゲームを作成</span>
+              <small>Create New Game</small>
+            </button>
+            <div class="divider">または</div>
+            <div class="join-room">
+              <input
+                type="text"
+                id="roomCodeInput"
+                placeholder="ルームコード入力"
+                maxlength="6"
+              />
+              <button id="joinRoomBtn" class="btn btn-secondary">参加</button>
+            </div>
+          </div>
+          <div id="roomInfo" class="room-info hidden">
+            <p>ルームコード: <strong id="displayRoomCode"></strong></p>
+            <p class="waiting">対戦相手を待っています...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Screen -->
+      <div id="gameScreen" class="screen">
+        <div class="game-layout">
+          <!-- Player 2 Info (Top) -->
+          <div class="player-info player-2">
+            <div class="player-label">
+              <span class="player-name">後手 (Gote)</span>
+              <span id="turn2" class="turn-indicator"></span>
+            </div>
+            <div id="captured2" class="captured-pieces"></div>
+          </div>
+
+          <!-- Game Board -->
+          <div class="board-container">
+            <div id="board" class="board"></div>
+            <div id="promotionDialog" class="promotion-dialog hidden">
+              <div class="promotion-content">
+                <h3>成りますか？</h3>
+                <p>Promote this piece?</p>
+                <div class="promotion-buttons">
+                  <button id="promoteYes" class="btn btn-primary">
+                    成る (Yes)
+                  </button>
+                  <button id="promoteNo" class="btn btn-secondary">
+                    成らない (No)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Player 1 Info (Bottom) -->
+          <div class="player-info player-1">
+            <div id="captured1" class="captured-pieces"></div>
+            <div class="player-label">
+              <span class="player-name">先手 (Sente)</span>
+              <span id="turn1" class="turn-indicator"></span>
+            </div>
+          </div>
+
+          <!-- Game Controls -->
+          <div class="game-controls">
+            <div class="status-bar">
+              <span id="gameStatus">ゲーム開始</span>
+              <span id="checkStatus" class="check-warning hidden">王手！</span>
+            </div>
+            <div class="control-buttons">
+              <button id="undoBtn" class="btn btn-small">待った (Undo)</button>
+              <button id="resignBtn" class="btn btn-small btn-danger">
+                投了 (Resign)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Undo Request Dialog -->
+      <div id="undoDialog" class="modal hidden">
+        <div class="modal-content">
+          <h3>待ったの要求</h3>
+          <p>相手が待った（手の取り消し）を要求しています。</p>
+          <p>Opponent requests to undo the last move.</p>
+          <div class="modal-buttons">
+            <button id="undoApprove" class="btn btn-primary">
+              承認 (Approve)
+            </button>
+            <button id="undoDeny" class="btn btn-secondary">拒否 (Deny)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error/Info Toast -->
+      <div id="toast" class="toast hidden"></div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+  </body>
+</html>
